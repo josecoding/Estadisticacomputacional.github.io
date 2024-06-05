@@ -36,7 +36,7 @@
         
         // Imprimir los valores de fechaCompra y montoInversion en la consola
         console.log("Fecha de Compra:", fechaCompra);
-        console.log("Monto Invertido:", montoInversion);
+        console.log("Dinero invertido:", montoInversion);
         
         // Cargar los datos del archivo SAN.csv utilizando fetch
         fetch("SAN.csv")
@@ -61,7 +61,7 @@
                 
                 // Mostrar los resultados
                 var resultado = "Fecha de Compra: " + fechaCompra + "<br>" +
-                                "Monto Invertido: " + montoInversion + " euros" + "<br>" +
+                                "Dinero invertido: " + montoInversion + " euros" + "<br>" +
                                 "Cantidad de acciones compradas: " + cantidadAcciones.toFixed(2) + "<br>" +
                                 "Precio actual por acción: " + precioActual + "<br>" +
                                 "Valor actual de las acciones: " + valorActual.toFixed(2) + "<br>";
