@@ -28,24 +28,42 @@
     
     <div id="resultado"></div>
     
-    <script>
-        function calcularValorActual() {
-            var fechaCompra = document.getElementById("fechaCompra").value;
-            var montoInversion = document.getElementById("montoInversion").value;
+   <script>
+    function calcularValorActual() {
+        var fechaCompra = document.getElementById("fechaCompra").value;
+        var montoInversion = document.getElementById("montoInversion").value;
+        
+        // Imprimir los valores de fechaCompra y montoInversion en la consola
+        console.log("Fecha de Compra:", fechaCompra);
+        console.log("Monto Invertido:", montoInversion);
+        
+        // Cargar los datos del archivo SAN.csv
+        d3.csv("SAN.csv").then(function(data) {
+            // Filtrar los datos para obtener el precio de apertura en la fecha de compra
+            var precioApertura = data.find(function(d) {
+                return d.Date === fechaCompra;
+            }).Open;
             
-            // Imprimir los valores de fechaCompra y montoInversion en la consola
-            console.log("Fecha de Compra:", fechaCompra);
-            console.log("Monto Invertido:", montoInversion);
+            // Calcular la cantidad de acciones que se pueden comprar con el monto de inversión
+            var cantidadAcciones = montoInversion / precioApertura;
             
-            // Aquí puedes hacer los cálculos necesarios con los datos ingresados por el usuario
+            // Obtener el precio más reciente disponible
+            var precioActual = data[data.length - 1].Close;
             
-            // Por ejemplo:
+            // Calcular el valor actual de las acciones compradas
+            var valorActual = cantidadAcciones * precioActual;
+            
+            // Mostrar los resultados
             var resultado = "Fecha de Compra: " + fechaCompra + "<br>" +
-                            "Monto Invertido: " + montoInversion + " euros" + "<br>";
-                            // Aquí puedes mostrar los resultados de los cálculos
+                            "Monto Invertido: " + montoInversion + " euros" + "<br>" +
+                            "Cantidad de acciones compradas: " + cantidadAcciones.toFixed(2) + "<br>" +
+                            "Precio actual por acción: " + precioActual + "<br>" +
+                            "Valor actual de las acciones: " + valorActual.toFixed(2) + "<br>";
             
             document.getElementById("resultado").innerHTML = resultado;
-        }
-    </script>
+        });
+    }
+</script>
+
 </body>
 </html>
