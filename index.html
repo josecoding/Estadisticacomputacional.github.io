@@ -38,20 +38,21 @@
     <div id="resultado"></div>
     
     <script>
-        function calcularValorActual() {
-            var fechaCompra = document.getElementById("fechaCompra").value;
-            var montoInversion = document.getElementById("montoInversion").value;
-            
-            // Aquí puedes hacer los cálculos necesarios con los datos ingresados por el usuario
-            
-            // Por ejemplo:
-            var resultado = "Fecha de Compra: " + fechaCompra + "<br>" +
-                            "Monto Invertido: " + montoInversion + " euros" + "<br>" +
-                            // Aquí puedes mostrar los resultados de los cálculos
-            
-            document.getElementById("resultado").innerHTML = resultado;
-        }
-    </script>
+    function calcularValorActual() {
+        var fechaCompra = document.getElementById("fechaCompra").value;
+        var montoInversion = document.getElementById("montoInversion").value;
+        
+        // Aquí puedes hacer los cálculos necesarios con los datos ingresados por el usuario
+        
+        // Por ejemplo:
+        var resultado = "Fecha de Compra: " + fechaCompra + "<br>" +
+                        "Monto Invertido: " + montoInversion + " euros" + "<br>";
+                        // Aquí puedes mostrar los resultados de los cálculos
+        
+        document.getElementById("resultado").innerHTML = resultado;
+    }
+</script>
+
 </body>
 </html>
 
