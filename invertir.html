@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Inversión</title>
+</head>
+<body>
+    <h1>Calculadora de Inversión</h1>
+    
+    <label for="fechaCompra">Fecha de Compra:</label>
+    <input type="date" id="fechaCompra">
+    
+    <label for="montoInversion">Monto a Invertir (en euros):</label>
+    <input type="number" id="montoInversion">
+    
+    <button onclick="calcularValorActual()">Calcular Valor Actual</button>
+    
+    <div id="resultado"></div>
+    
+    <script>
+        function calcularValorActual() {
+            var fechaCompra = document.getElementById("fechaCompra").value;
+            var montoInversion = document.getElementById("montoInversion").value;
+            
+            // Aquí puedes hacer los cálculos necesarios con los datos ingresados por el usuario
+            
+            // Por ejemplo:
+            var resultado = "Fecha de Compra: " + fechaCompra + "<br>" +
+                            "Monto Invertido: " + montoInversion + " euros" + "<br>" +
+                            // Aquí puedes mostrar los resultados de los cálculos
+            
+            document.getElementById("resultado").innerHTML = resultado;
+        }
+    </script>
+</body>
+</html>
+
