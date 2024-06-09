@@ -1,5 +1,5 @@
 ---
-title: "Análisis de Series Temporales para finanzas"
+title: "RStudio para finanzas"
 author: "José Algar Fernández"
 date: "10 de junio de 2024"
 output: html_document
@@ -11,68 +11,28 @@ En esta vignette, exploraremos cómo usar el paquete `quantmod` para obtener, an
 
 # Descripción del Problema
 
-El análisis de series temporales es crucial en finanzas para pronosticar precios futuros de activos financieros basándose en datos históricos. Esto es fundamental para la toma de decisiones en inversiones y gestión de riesgos.
+El análisis de series temporales es crucial en finanzas para pronosticar precios futuros de activos financieros basándose en datos históricos. Esto es fundamental para la toma de decisiones en inversiones y gestión de riesgos. Estudiaré el comportamiento de las acciones del Banco Santander de los últimos años.
 
 # Paquete `quantmod`
 
-El paquete `quantmod` ofrece una solución integral para el modelado y análisis financiero en R. Proporciona funciones para obtener datos financieros de diversas fuentes, crear gráficos avanzados y realizar análisis técnico.
+El paquete `quantmod` ofrece una solución integral para el modelado y análisis financiero en R. Proporciona funciones para obtener datos financieros de diversas fuentes, crear gráficos avanzados y realizar análisis técnicos.
 
-## Funcionalidades Principales
-
-1. **Obtención de Datos**
-2. **Visualización y Charting**
-3. **Análisis Técnico**
-4. **Generación de Señales**
-
-# Ejemplos Ilustrativos
-
-## Obtención de Datos
-
-El paquete `quantmod` permite cargar datos desde diferentes fuentes como Yahoo Finance, Google Finance, FRED, Oanda, entre otras.
+## RStudio:
 
 ```{r}
 knitr::opts_chunk$set(echo = TRUE)
 
-# Instalar y cargar los paquetes necesarios
-if (!require("quantmod")) {
-  install.packages("quantmod", dependencies = TRUE)
-}
-if (!require("TTR")) {
-  install.packages("TTR", dependencies = TRUE)
-}
-if (!require("curl")) {
-  install.packages("curl", dependencies = TRUE)
-}
-if (!require("forecast")) {
-  install.packages("forecast", dependencies = TRUE)
-}
-if (!require("rugarch")) {
-  install.packages("rugarch", dependencies = TRUE)
-}
-if (!require("vars")) {
-  install.packages("vars", dependencies = TRUE)
-}
-if (!require("dygraphs")) {
-  install.packages("dygraphs", dependencies = TRUE)
-}
-if (!require("PerformanceAnalytics")) {
-  install.packages("PerformanceAnalytics", dependencies = TRUE)
-}
-if (!require("PortfolioAnalytics")) {
-  install.packages("PortfolioAnalytics", dependencies = TRUE)
-}
-
 # Cargar paquetes
 library(quantmod)
 library(TTR)
-library(curl)
 library(forecast)
 library(rugarch)
 library(vars)
 library(dygraphs)
-library(PerformanceAnalytics)
-library(PortfolioAnalytics)
 
+
+# Creo un archivo .csv con los datos descargados de la cotización de los últimos cinco años de las acciones del Banco Santander.
+# Las columnas son: Date, Open, High, Low, CLose, Adj Close, Volume
 # Cargar los datos desde un archivo CSV
 SAN <- read.csv('/home/jose/Descargas/SAN.csv')
 
@@ -93,16 +53,16 @@ OpCl(SAN)  # Cambio porcentual diario de apertura a cierre
 OpOp(SAN)  # Cambio porcentual diario de apertura
 HiCl(SAN)  # Cambio porcentual diario de máximo a cierre
 
-# Mostrar las primeras y últimas filas de los datos
+# Mostramos las primeras y últimas filas de los datos
 head(SAN)
 tail(SAN)
-# Mostrar los precios ajustados
+# Mostramos los precios ajustados
 head(SAN$SAN.Adjusted)
 
-# Mostrar las primeras dos entradas de los precios ajustados
+# Mostramos las primeras dos entradas de los precios ajustados
 SAN$SAN.Adjusted[1:2]
 
-# Acceder a filas y columnas específicas
+# Accedemos a filas y columnas específicas
 SAN[1:2, 1:3]  # Primeras dos filas y tres columnas
 SAN[1:5, 'SAN.High']  # Primeras cinco filas de la columna 'SAN.High'
 SAN[1:5, 2]  # Primeras cinco filas y segunda columna
@@ -116,11 +76,11 @@ Delt(SAN$SAN.Adjusted)
 ret <- diff(log(SAN$SAN.Adjusted))
 ret
 
-# Crear un dataframe con fechas y precios ajustados
+# Creamos un dataframe con fechas y precios ajustados
 SAN_prices <- SAN[, "SAN.Adjusted", drop = FALSE]
 rownames(SAN_prices) <- index(SAN_prices)
 head(SAN_prices)
-# Obtener datos del Banco Santander desde una fecha específica
+# Obtenemos datos del Banco Santander desde una fecha específica
 SAN <- getSymbols("SAN", from = "2019-06-05", auto.assign = F)
 
 # Gráfico de líneas
@@ -150,9 +110,8 @@ chart_Series(SAN, subset = "2021-06-01::", type = "ohlc", pars = cp, TA = "add_V
 # Gráfico de series temporales con tema personalizado
 chart_Series(SAN, subset = "2019-06-05::", type = "line", pars = cp, TA = "add_Vo()", theme = ct)
 
-################################################
 #################################################
-# RSI
+# RSI - ÍNDICE DE FUERZA RELATIVA
 SAN$RSI <- RSI(SAN$SAN.Adjusted, n = 14)
 plot(SAN$RSI, main = "RSI del Banco Santander")
 # Modelo ARIMA
@@ -171,7 +130,6 @@ plot(fit, which = 9)  # Condicional de varianza
 # Ajustar modelo VAR
 var_model <- VAR(SAN[, c("SAN.Adjusted", "SAN.Volume")], p = 2)
 summary(var_model)
-
 
 # Gráfico interactivo con dygraphs
 dygraph(SAN$SAN.Adjusted, main = "Precio Ajustado de SAN")
